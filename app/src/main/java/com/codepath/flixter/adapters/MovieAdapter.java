@@ -1,6 +1,7 @@
 package com.codepath.flixter.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TextureView;
@@ -50,7 +51,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     // Returns the total count of items in the list
     @Override
     public int getItemCount() {
-        return 0;
+        return movies.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -69,7 +70,15 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverview.setText(movie.getOverview());
-            Glide.with(context).load(movie.getPosterPath()).into(ivPoster);
+            String imageUrl;
+
+            if (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+                imageUrl = movie.getBackdropPath();
+            } else {
+                imageUrl = movie.getPosterPath();
+            }
+
+            Glide.with(context).load(imageUrl).into(ivPoster);
         }
     }
 }
